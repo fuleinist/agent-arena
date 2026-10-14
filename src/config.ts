@@ -126,6 +126,7 @@ function readJson(file: string, label: string): unknown {
   } catch {
     throw new ConfigError(`Cannot read ${label} at ${file}. Run "arena init" first.`);
   }
+  if (raw.charCodeAt(0) === 0xfeff) raw = raw.slice(1);
   try {
     return JSON.parse(raw);
   } catch (err) {

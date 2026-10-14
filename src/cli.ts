@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve, sep } from "node:path";
 import { parseArgs } from "node:util";
-import { ConfigError, filterAgents, filterTasks, loadConfig } from "./config.js";
+import { filterAgents, filterTasks, loadConfig } from "./config.js";
 import { loadRun, renderJsonReport, renderTextReport } from "./report.js";
 import { runArena } from "./runner.js";
 
@@ -118,7 +118,7 @@ export async function main(argv: string[]): Promise<number> {
     }
   } catch (err) {
     console.error(`Error: ${err instanceof Error ? err.message : String(err)}`);
-    return err instanceof ConfigError ? 1 : 1;
+    return 1;
   }
 }
 

@@ -92,6 +92,17 @@ test("loadTasks treats empty setup and verify as absent", () => {
   assert.equal(config.tasks[0].verify, undefined);
 });
 
+test("loadConfig accepts a UTF-8 BOM on config files", () => {
+  const root = makeTmpDir();
+  writeFiles(root, {
+    ".arena/tasks.json": "\uFEFF" + JSON.stringify({ tasks: [goodTask] }),
+    ".arena/agents.json": "\uFEFF" + JSON.stringify({ agents: [goodAgent] }),
+  });
+  const config = loadConfig(root);
+  assert.equal(config.tasks.length, 1);
+  assert.equal(config.agents.length, 1);
+});
+
 test("loadAgents rejects an agent without a command", () => {
   const root = makeTmpDir();
   writeArena(root, [goodTask], [{ name: "a1" }]);
